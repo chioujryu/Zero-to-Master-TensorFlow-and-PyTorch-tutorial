@@ -229,6 +229,68 @@ def compare_historys(original_history, new_history, initial_epochs=5):
     plt.title('Training and Validation Loss')
     plt.xlabel('epoch')
     plt.show()
+
+
+
+#  Download the file and Unzips filename into the current working directory.
+#  You also can delete your zip file.
+import os
+import platform
+import wget
+import requests
+import zipfile
+def download_file(dir_name, unzip_data = False, delete_zip_data = False):
+  """
+  Download the file and Unzips filename into the current working directory.
+  You also can delete your zip file.
+
+  Args:
+    dir_name (str): a filepath you want to download, such as "https://storage.googleapis.com/ztm_tf_course/food_vision/10_food_classes_10_percent.zip".
+    unzip_data (boolean): you can unzip the zip file into the current working directory.
+    delete_zip_data (boolean): you can delete the zip file into the current working directory.
+  """
+  base_path_name = os.path.basename(f"{dir_name}")
+  base_path_name = f"{base_path_name}"
+  if platform.system() == 'Linux':
+    if os.path.exists(base_path_name) != True:
+      r = requests.get(dir_name)
+      open(base_path_name , 'wb').write(r.content)
+      print("download success")
+    else:
+      print("you already have this file")
+  elif platform.system() == "Windows":
+    if os.path.exists(base_path_name) != True:
+      wget.download({dir_name})
+      print("download success")
+    else:
+      print("you already have this file")
+  else:
+    print("you are not using Windows or Linux, please using Windows or Linux")
+
+  if unzip_data == True:
+    if os.path.exists(base_path_name) == True:
+      zip_ref = zipfile.ZipFile(base_path_name, "r")
+      zip_ref.extractall()
+      zip_ref.close()
+      print("unzip success")
+    else:
+      print("you don't have zip file, so you can not unzip the file")
+
+  if delete_zip_data == True:
+    if platform.system() == "Linux":
+      if os.path.exists(base_path_name) == True:
+        os.remove(base_path_name)
+        print("delete zip file success")
+      else:
+        print("you already delete this file, or you don't have this file")
+    elif platform.system() == "Windows":
+      if os.path.exists(base_path_name) == True:
+        os.remove(base_path_name)
+        print("delete zip file success")
+      else:
+        print("you already delete this file, or you don't have this file")
+  
+
   
 # Create function to unzip a zipfile into current working directory 
 # (since we're going to be downloading and unzipping a few files)
