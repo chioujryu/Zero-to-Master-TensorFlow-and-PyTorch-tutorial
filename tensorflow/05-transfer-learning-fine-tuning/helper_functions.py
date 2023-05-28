@@ -251,6 +251,7 @@ def download_file(dir_name, unzip_data = False, delete_zip_data = False):
   """
   base_path_name = os.path.basename(f"{dir_name}")
   base_path_name = f"{base_path_name}"
+  
   if platform.system() == 'Linux':
     if os.path.exists(base_path_name) != True:
       r = requests.get(dir_name)
